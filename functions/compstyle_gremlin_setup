@@ -17,7 +17,7 @@ function compstyle_gremlin_help () {
 }
 
 function compstyle_gremlin_setup {
-  # https://github.com/grml/grml-etc-core/blob/master/etc/zsh/zshrc#L745-L926
+  # https://github.com/grml/grml-etc-core/blob/master/etc/zsh/zshrc#L745-L933
 
   # not just at the end
   setopt completeinword

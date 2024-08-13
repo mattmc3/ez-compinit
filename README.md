@@ -6,10 +6,11 @@
 
 :hatching_chick: Let's talk about `compinit`...
 
-The [Zsh completion system][zsh-completion-system] works by finding _completion files in
-Zsh's `fpath`. That means your `fpath` needs to be fully populated prior to calling
-`compinit`. But, sometimes you need completion functions to be available like `compdef`
-before `fpath` is fully populated. Many Zsh plugins call `compdef`, for example.
+The [Zsh completion system][zsh-completion-system] works by finding special
+"_completion" function files in Zsh's `fpath`. That means your `fpath` needs to be fully
+populated prior to calling `compinit`. But, sometimes you need completion functions to
+be available like `compdef` before `fpath` is fully populated. Many Zsh plugins call
+`compdef`, for example.
 
 Zsh's completion system has big chicken-and-egg problems :hatching_chick:. Which is first!?
 
@@ -65,8 +66,8 @@ You no longer need to think about how Zsh completions work.
 
 This plugin is **not** needed for regular Oh-My-Zsh users. If you are using Oh-My-Zsh
 with the [antidote] plugin manager, I recommend using [getantidote/use-omz][use-omz]
-instead, which is by the same plugin author and uses similar concepts, but is geared
-towards Oh-My-Zsh specifically.
+instead, which is by the same plugin author (me!) and uses similar concepts, but is
+geared towards Oh-My-Zsh specifically.
 
 ## How do I customize it?
 

@@ -99,7 +99,7 @@ will skip insecure directory checks. This is very similar to what Prezto does in
 completion module. That might not be what you want, so if you prefer to use `compinit`
 differently, you can simply call it yourself at the very bottom of your `.zshrc`:
 
-```
+```zsh
 # .zshrc contents above...
 autoload -Uz compinit
 compinit -u -d /path/to/zcompdump

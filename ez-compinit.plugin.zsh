@@ -38,7 +38,7 @@ function run-compinit {
   # Initialize completions
   local -a compinit_flags=(-d "$zcompdump")
   autoload -Uz compinit
-  if zstyle -T ':plugin:ez-compinit' 'use-cache'; then
+  if zstyle -t ':plugin:ez-compinit' 'use-cache'; then
     # Load and initialize the completion system ignoring insecure directories with a
     # cache time of 20 hours, so it should almost always regenerate the first time a
     # shell is opened each day.

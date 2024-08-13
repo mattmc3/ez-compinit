@@ -86,11 +86,11 @@ the `ZSH_COMPDUMP` variable like so:
 ZSH_COMPDUMP=/path/to/.zcompdump
 ```
 
-This plugin caches the zcompdump file for a day for performance reasons. You can disable
-that behavior with the following `zstyle`:
+This plugin can also cache the zcompdump file for a day for performance reasons. You can
+enable that behavior with the following `zstyle`:
 
 ```zsh
-zstyle ':plugin:ez-compinit' 'use-cache' 'no'
+zstyle ':plugin:ez-compinit' 'use-cache' 'yes'
 ```
 
 ez-compinit provides a `run-compinit` function which includes performance enhancements

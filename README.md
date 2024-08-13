@@ -70,20 +70,26 @@ towards Oh-My-Zsh specifically.
 
 ## How do I customize it?
 
-This plugin will place the completion dump file in
+This plugin will place the completion dump file at the following location by default:
+`${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump`. You can override this by setting
+the `ZSH_COMPDUMP` variable like so:
 
-This plugin caches zcompdump for a day for performance reasons. You can disable that
-caching with the following `zstyle`:
+```zsh
+ZSH_COMPDUMP=/path/to/.zcompdump
+```
+
+This plugin caches the zcompdump file for a day for performance reasons. You can disable
+that behavior with the following `zstyle`:
 
 ```zsh
 zstyle ':plugin:ez-compinit' 'use-cache' 'no'
 ```
 
-ez-compinit provides a `run-compinit` function which includes performance in addition
-to caching. It will `zcompile` the completion file, and will skip insecure directory
-checks. This is very similar to what Prezto does in its completion module. That might
-not be what you want, so if you prefer to use `compinit` differently, you can simply
-call it yourself at the very bottom of your `.zshrc`:
+ez-compinit provides a `run-compinit` function which includes performance enhancements
+in addition to caching mentioned above. It will also `zcompile` the completion file, and
+will skip insecure directory checks. This is very similar to what Prezto does in its
+completion module. That might not be what you want, so if you prefer to use `compinit`
+differently, you can simply call it yourself at the very bottom of your `.zshrc`:
 
 ```
 # .zshrc contents above...
@@ -91,8 +97,6 @@ autoload -Uz compinit
 compinit -u -d /path/to/zcompdump
 # end of .zshrc
 ```
-
-You can also
 
 [antidote]: https://getantidote.github.io
 [use-omz]: https://github.com/getantidote/use-omz

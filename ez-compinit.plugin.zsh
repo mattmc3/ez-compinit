@@ -8,6 +8,11 @@
 # Return if requirements are not met.
 [[ "$TERM" != 'dumb' ]] || return 1
 
+# Autoload functions.
+0=${(%):-%N}
+fpath=(${0:a:h}/functions $fpath)
+autoload -Uz ${0:a:h}/functions/*(.:t)
+
 function run-compinit {
   emulate -L zsh
   setopt local_options extended_glob
@@ -96,3 +101,11 @@ function compinit {
   # We can also run compinit early. Once it runs, we no longer need a precmd hook.
   add-zsh-hook -d precmd run-compinit
 }
+
+# Set completion style if specified
+typeset -g _compstyle
+if zstyle -s ':plugin:ez-compinit' 'compstyle' _compstyle; then
+  compstyleinit
+  compstyle "${_compstyle[@]}"
+fi
+unset _compstyle

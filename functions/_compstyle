@@ -1,0 +1,13 @@
+#compdef compstyle
+
+if [[ "$#populate_completion_styles" -eq 0 ]]; then
+  compstyleinit 2>/dev/null
+  [[ $#completion_styles -gt 0 ]] || populate_completion_styles 2>/dev/null
+fi
+
+_arguments -s \
+  '-l[list completion styles]:*:' \
+  "-h[help]::completion style:($completion_styles):*:" \
+  ":completion style:($completion_styles)"
+
+# vi: ft=zsh

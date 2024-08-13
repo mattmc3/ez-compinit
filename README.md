@@ -86,8 +86,11 @@ the `ZSH_COMPDUMP` variable like so:
 ZSH_COMPDUMP=/path/to/.zcompdump
 ```
 
-This plugin can also cache the zcompdump file for a day for performance reasons. You can
-enable that behavior with the following `zstyle`:
+This plugin can also cache the zcompdump file for a day for performance reasons. Caching
+is disabled by default because it can cause you trouble if you add completions to your
+`fpath` and forget you have enabled caching. Then, you'll waste a hour trying to track
+down why your compinit is broken. If you consider yourself an advanced user and think
+you can navigate that issue, you can enable caching with the following `zstyle`:
 
 ```zsh
 zstyle ':plugin:ez-compinit' 'use-cache' 'yes'

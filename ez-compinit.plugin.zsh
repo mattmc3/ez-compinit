@@ -21,10 +21,8 @@ function run-compinit {
   local zcompdump
   if [[ -n "$ZSH_COMPDUMP" ]]; then
     zcompdump="$ZSH_COMPDUMP"
-  elif [[ -n "$XDG_CACHE_HOME" ]]; then
-    zcompdump=$XDG_CACHE_HOME/zcompdump
   else
-    zcompdump=${ZDOTDIR:-$HOME}/.zcompdump
+    zcompdump=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump
   fi
 
   # Make sure zcompdump's directory exists and doesn't have a leading tilde.
@@ -40,7 +38,7 @@ function run-compinit {
   # Initialize completions
   local -a compinit_flags=(-d "$zcompdump")
   autoload -Uz compinit
-  if zstyle -T ':plugin:ez-compinit:caching' 'enabled'; then
+  if zstyle -T ':plugin:ez-compinit' 'use-cache'; then
     # Load and initialize the completion system ignoring insecure directories with a
     # cache time of 20 hours, so it should almost always regenerate the first time a
     # shell is opened each day.

@@ -9,13 +9,23 @@
 The [Zsh completion system][zsh-completion-system] works by finding _completion files in
 Zsh's `fpath`. That means your `fpath` needs to be fully populated prior to calling
 `compinit`. But, sometimes you need completion functions to be available like `compdef`
-before `fpath` is fully populated. Many Zsh plugins call `compdef`, for example. Zsh's
-completion system has big chicken-and-egg problems :hatching_chick:. Which comes first!?
+before `fpath` is fully populated. Many Zsh plugins call `compdef`, for example.
+
+Zsh's completion system has big chicken-and-egg problems :hatching_chick:. Which is first!?
 
 This plugin handles all those completion use-cases by simply wrapping `compinit`,
-queueing any calls to `compdef`, and hooking the real call to `compinit` to an event
+queueing up calls to `compdef`, and hooking the real `compinit` call to an event
 that runs at the end of your `.zshrc`. That way you get all the benefits of calling
 `compinit` early without any of the downsides. Neat!
+
+## Can I still call compinit?
+
+Yes, you can absolutely call `compinit` yourself. Or, you can use a plugin that calls
+`compinit`. ez-compinit will gracefully unhook itself whenever `compinit` is called.
+
+Or, you can simply load this plugin and forget about it. ez-compinit will guarantee
+`compinit` is called for you with reasonable defaults. That's what makes it **easy**.
+You no longer need to think about how Zsh completions work.
 
 ## What if I'm using Oh-My-Zsh?
 

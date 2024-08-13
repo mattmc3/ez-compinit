@@ -65,15 +65,7 @@ function run-compinit {
       fi
     fi
   } &!
-
-  # Once this runs once, we want to make sure to remove the precmd hook.
-  add-zsh-hook -d precmd run-compinit
 }
-
-# Attach run-compinit to the built-in precmd hook. It should only run once, so
-# run-compint or our compinit wrapper need to remove this hook after they run.
-autoload -U add-zsh-hook
-add-zsh-hook precmd run-compinit
 
 # Define compinit placeholder functions (compdef) so we can queue up calls.
 # That way when the real compinit is called, we can execute the queue.
@@ -102,10 +94,18 @@ function compinit {
   add-zsh-hook -d precmd run-compinit
 }
 
-# Set completion style if specified
-typeset -g _compstyle
-if zstyle -s ':plugin:ez-compinit' 'compstyle' _compstyle; then
+function run-compstyleinit {
   compstyleinit
-  compstyle "${_compstyle[@]}"
-fi
-unset _compstyle
+  local -a mycompstyle
+  if zstyle -a ':plugin:ez-compinit' 'compstyle' mycompstyle; then
+    if [[ "$mycompstyle" != (off|none) ]]; then
+      compstyle "${mycompstyle[@]}"
+    fi
+  fi
+}
+
+# Attach run-compinit and run-compstyle to the built-in precmd hook. These should only
+# run once, so each function needs to remove this hook after they run.
+autoload -U add-zsh-hook
+add-zsh-hook precmd run-compinit
+add-zsh-hook precmd run-compstyleinit

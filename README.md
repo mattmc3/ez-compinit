@@ -64,10 +64,17 @@ You no longer need to think about how Zsh completions work.
 
 ## What if I'm using Oh-My-Zsh?
 
-This plugin is **not** needed for regular Oh-My-Zsh users. If you are using Oh-My-Zsh
-with the [antidote] plugin manager, I recommend using [getantidote/use-omz][use-omz]
-instead, which is by the same plugin author (me!) and uses similar concepts, but is
-geared towards Oh-My-Zsh specifically.
+This plugin is **not** needed for regular Oh-My-Zsh users. If you happen to be using
+Oh-My-Zsh with the [antidote] plugin manager, I recommend using
+[getantidote/use-omz][use-omz] instead, which is by the same plugin author (me!) and
+uses similar concepts, but is geared towards antidote users of Oh-My-Zsh specifically.
+You definitely don't need both plugins.
+
+## I don't use the antidote plugin manager. Can I still use this?
+
+Absolutely. This plugin has nothing to do with antidote, which is why it's hosted on my
+personal GitHub and not the GetAntidote org. It's a complete plugin on its own with no
+dependencies, and makes managing the Zsh completion system easy.
 
 ## How do I customize it?
 

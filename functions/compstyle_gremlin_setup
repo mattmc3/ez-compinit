@@ -155,24 +155,31 @@ function compstyle_gremlin_setup {
   [[ -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh" ]] || mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 
   # host completion
+  _etc_hosts=()
+  _ssh_config_hosts=()
+  _ssh_hosts=()
   if [[ $ZSH_VERSION == 4.<2->* || $ZSH_VERSION == <5->* ]] ; then
-      [[ -r ~/.ssh/config ]] && _ssh_config_hosts=(${${(s: :)${(ps:\t:)${${(@M)${(f)"$(<$HOME/.ssh/config)"}:#Host *}#Host }}}:#*[*?]*}) || _ssh_config_hosts=()
-      [[ -r ~/.ssh/known_hosts ]] && _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}) || _ssh_hosts=()
-      [[ -r /etc/hosts ]] && [[ "$NOETCHOSTS" -eq 0 ]] && : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(grep -v '^0\.0\.0.\0\|^127\.0\.0\.1\|^::1 ' /etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}} || _etc_hosts=()
-  else
-      _ssh_config_hosts=()
-      _ssh_hosts=()
-      _etc_hosts=()
+    if [[ -r ~/.ssh/config ]] ; then
+      _ssh_config_hosts=(${${(s: :)${(ps:\t:)${${(@M)${(f)"$(<$HOME/.ssh/config)"}:#Host *}#Host }}}:#*[*?]*})
+    fi
+
+    if [[ -r ~/.ssh/known_hosts ]] ; then
+      _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*})
+    fi
+
+    if [[ -r /etc/hosts ]] && [[ "$NOETCHOSTS" -eq 0 ]] ; then
+      : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(grep -v '^0\.0\.0\.0\|^127\.0\.0\.1\|^::1 ' /etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}}
+    fi
   fi
 
   local localname
   localname="$(uname -n)"
   hosts=(
-      "${localname}"
-      "$_ssh_config_hosts[@]"
-      "$_ssh_hosts[@]"
-      "$_etc_hosts[@]"
-      localhost
+    "${localname}"
+    "$_ssh_config_hosts[@]"
+    "$_ssh_hosts[@]"
+    "$_etc_hosts[@]"
+    localhost
   )
   zstyle ':completion:*:hosts' hosts $hosts
   # TODO: so, why is this here?
@@ -181,8 +188,9 @@ function compstyle_gremlin_setup {
   # use generic completion system for programs not yet defined; (_gnu_generic works
   # with commands that provide a --help option with "standard" gnu-like output.)
   for compcom in cp deborphan df feh fetchipac gpasswd head hnb ipacsum mv \
-                  pal stow uname ; do
-      [[ -z ${_comps[$compcom]} ]] && compdef _gnu_generic ${compcom}
+                 pal stow uname
+  do
+    [[ -z ${_comps[$compcom]} ]] && compdef _gnu_generic ${compcom}
   done; unset compcom
 
   # see upgrade function in this file

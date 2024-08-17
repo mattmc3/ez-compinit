@@ -106,4 +106,9 @@ function run-compstyleinit {
 # run once, so each function needs to remove this hook after they run.
 autoload -U add-zsh-hook
 add-zsh-hook precmd run-compinit
-add-zsh-hook precmd run-compstyleinit
+
+if zstyle -t ':plugin:ez-compinit:compstyleinit' defer; then
+  add-zsh-hook precmd run-compstyleinit
+else
+  run-compstyleinit
+fi

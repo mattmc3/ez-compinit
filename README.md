@@ -78,6 +78,9 @@ dependencies, and makes managing the Zsh completion system easy.
 
 ## How do I customize it?
 
+> _Note: Be sure to set all customization variables and zstyles before loading this
+plugin._
+
 This plugin will place the completion dump file at the following location by default:
 `${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump`. You can override this by setting
 the `ZSH_COMPDUMP` variable like so:

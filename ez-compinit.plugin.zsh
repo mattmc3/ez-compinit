@@ -70,8 +70,7 @@ function run-compinit {
 typeset -gHa __compdef_queue=()
 function compdef {
   (( $# )) || return
-  local compdef_args=("${@[@]}")
-  __compdef_queue+=("$(typeset -p compdef_args)")
+  __compdef_queue+=("${@[@]}" ";;;do compdef;;;")
 }
 
 # Wrap compinit temporarily so that when the real compinit call happens, the
@@ -81,10 +80,14 @@ function compinit {
   autoload -Uz compinit && compinit "$@"
 
   # Apply all the queued compdefs.
-  local typedef_compdef_args
-  for typedef_compdef_args in $__compdef_queue; do
-    eval "$typedef_compdef_args"
-    compdef "$compdef_args[@]"
+  local arg; local -a compdef_args=()
+  for arg in "${__compdef_queue[@]}"; do
+    if [[ "$arg" == ";;;do compdef;;;" ]]; then
+      compdef "${compdef_args[@]}"
+      compdef_args=()
+    else
+      compdef_args+=("$arg")
+    fi
   done
   unset __compdef_queue
 

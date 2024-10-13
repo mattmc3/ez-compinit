@@ -44,7 +44,7 @@ It also packages some completion "zstyles" from other popular projects like:
 
 ## How do I install it?
 
-To install with [antidote], add the following to antidote's
+To install with [antidote], add the following to the **top** of antidote's
 `${ZDOTDIR:-$HOME}/.zsh_plugins.txt` file:
 
 ```
@@ -65,7 +65,7 @@ source $ZPLUGIN_HOME/ez-compinit/ez-compinit.plugin.zsh
 
 ## How do I use it?
 
-ez-compinit is pretty simple. Run this plugin near the top of your config before any
+ez-compinit is pretty simple. Run this plugin near the **top** of your config before any
 other plugins or scripts that might call `compdef`.
 
 It's also recommended to pick a completion style. You set a compstyle with the following

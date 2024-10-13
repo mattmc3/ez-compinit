@@ -82,7 +82,7 @@ zstyle ':plugin:ez-compinit' 'compstyle' 'zshzoo'
 
 Yes, you can absolutely call `compinit` yourself. Or, you can use a plugin that calls
 `compinit`. ez-compinit will gracefully unhook itself whenever `compinit` is called.
-But, remember, once you do your `fpath` cannot be modified with additional directories
+But remember, once you do, your `fpath` cannot be modified with additional directories
 if you expect those to contain more completion functions.
 
 Or, you could simply load this plugin and forget about it. ez-compinit will guarantee

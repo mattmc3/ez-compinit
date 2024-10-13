@@ -1,23 +1,46 @@
 # ez-compinit
 
-> Plugin that makes it much easier to initialize Zsh completions
+> :hatching_chick: Make Zsh compinit suck less
 
-## How it works?
+This Zsh Plugin removes the complexity and "gotchas" from initializing the Zsh
+completion system (compinit).
+
+## What's so hard about compinit?
 
 :hatching_chick: Let's talk about `compinit`...
 
-The [Zsh completion system][zsh-completion-system] works by finding special
-"_completion" function files in Zsh's `fpath`. That means your `fpath` needs to be fully
-populated prior to calling `compinit`. But, sometimes you need completion functions to
-be available like `compdef` before `fpath` is fully populated. Many Zsh plugins call
-`compdef`, for example.
+The [Zsh completion system][zsh-completion-system] works by loading any completion
+functions in Zsh's "fpath". Completion functions are named with a leading underscore
+(eg: "_foo"). In order to use `compinit` correctly, your fpath needs to be fully populated prior to calling it. But, sometimes you need to use the completion functions
+to `compinit` creates, like `compdef`. Many Zsh plugins call `compdef`, for example.
 
-Zsh's completion system has big chicken-and-egg problems :hatching_chick:. Which is first!?
+This creates a big chicken-and-egg problem :hatching_chick:. Do you call `compinit`
+earlier so that its functions are available, or later so that you're sure you have
+everything in your `fpath` fully populated?
 
-This plugin handles all those completion use-cases by simply wrapping `compinit`,
-queueing up calls to `compdef`, and hooking the real `compinit` call to an event
-that runs at the end of your `.zshrc`. That way you get all the benefits of calling
-`compinit` early without any of the downsides. Neat!
+Then, once you've figured out how to initialize completions, you still have to figure
+out how to _display_ them. That happens with calls to `zstyle`. Learning how to
+properly configure your [zstyles](https://zsh.sourceforge.io/Doc/Release/Zsh-Modules.html#index-zstyle)
+to show completions how you want them is a whole other dark art in Zsh.
+
+Add to that the fact that calls to `compinit` are likely to be one of the slower parts
+of your whole Zsh config, and you wind up quickly finding that `compinit` is a pain to
+use, especially for new users.
+
+This plugin aims to fix all that. It handles the Zsh completion system complexity so you don't have to.
+
+## How does ez-compinit work?
+
+This plugin simply wraps `compinit` and the functions it creates so that we can defer
+completion initialization until after "fpath" is fully populated. This allows queueing
+calls to `compdef`, and hooking the real `compinit` call to an event that runs at the
+very end of your `.zshrc`. That way you get all the benefits of calling `compinit`
+early without any of the downsides. Neat!
+
+It also packages some completion "zstyles" from other popular projects like:
+- [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh)
+- [Prezto](https://github.com/sorin-ionescu/prezto)
+- [grml](https://github.com/grml/grml-etc-core/blob/master/etc/zsh/zshrc)
 
 ## How do I install it?
 
@@ -49,7 +72,9 @@ It's also recommended to pick a completion style. You set a compstyle with the f
 zstyle statement:
 
 ```zsh
-# See available completion styles with 'compstyle -l'
+# Available completion styles: gremlin, ohmy, prez, zshzoo
+# You can add your own too. To see all available completion styles
+# run 'compstyle -l'
 zstyle ':plugin:ez-compinit' 'compstyle' 'zshzoo'
 ```
 
@@ -57,8 +82,10 @@ zstyle ':plugin:ez-compinit' 'compstyle' 'zshzoo'
 
 Yes, you can absolutely call `compinit` yourself. Or, you can use a plugin that calls
 `compinit`. ez-compinit will gracefully unhook itself whenever `compinit` is called.
+But, remember, once you do your `fpath` cannot be modified with additional directories
+if you expect those to contain more completion functions.
 
-Or, you can simply load this plugin and forget about it. ez-compinit will guarantee
+Or, you could simply load this plugin and forget about it. ez-compinit will guarantee
 `compinit` is called for you with reasonable defaults. That's what makes it **easy**.
 You no longer need to think about how Zsh completions work.
 
@@ -67,14 +94,15 @@ You no longer need to think about how Zsh completions work.
 This plugin is **not** needed for regular Oh-My-Zsh users. If you happen to be using
 Oh-My-Zsh with the [antidote] plugin manager, I recommend using
 [getantidote/use-omz][use-omz] instead, which is by the same plugin author (me!) and
-uses similar concepts, but is geared towards antidote users of Oh-My-Zsh specifically.
+uses similar concepts, but is geared specifically towards antidote users of Oh-My-Zsh.
 You definitely don't need both plugins.
 
 ## I don't use the antidote plugin manager. Can I still use this?
 
 Absolutely. This plugin has nothing to do with antidote, which is why it's hosted on my
-personal GitHub and not the GetAntidote org. It's a complete plugin on its own with no
-dependencies, and makes managing the Zsh completion system easy.
+personal GitHub and not at [https://github.com/getantidote](https://github.com/getantidote).
+It's a complete plugin on its own with no dependencies, and makes managing the Zsh
+completion system easy.
 
 ## How do I customize it?
 

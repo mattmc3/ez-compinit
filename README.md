@@ -12,7 +12,7 @@ completion system (compinit).
 The [Zsh completion system][zsh-completion-system] works by loading any completion
 functions in Zsh's "fpath". Completion functions are named with a leading underscore
 (eg: "_foo"). In order to use `compinit` correctly, your fpath needs to be fully populated prior to calling it. But, sometimes you need to use the completion functions
-to `compinit` creates, like `compdef`. Many Zsh plugins call `compdef`, for example.
+`compinit` creates, like `compdef`. Many Zsh plugins call `compdef`, for example.
 
 This creates a big chicken-and-egg problem :hatching_chick:. Do you call `compinit`
 earlier so that its functions are available, or later so that you're sure you have

@@ -91,8 +91,8 @@ You no longer need to think about how Zsh completions work.
 
 ## What if I'm using Oh-My-Zsh?
 
-This plugin is **not** needed for regular Oh-My-Zsh users. If you happen to be using
-Oh-My-Zsh with the [antidote] plugin manager, I recommend using
+This plugin is **not** needed for regular Oh-My-Zsh users. But, if you happen to be
+using Oh-My-Zsh with the [antidote] plugin manager, I highly recommend using
 [getantidote/use-omz][use-omz] instead, which is by the same plugin author (me!) and
 uses similar concepts, but is geared specifically towards antidote users of Oh-My-Zsh.
 You definitely don't need both plugins.
@@ -104,10 +104,11 @@ personal GitHub and not at [https://github.com/getantidote](https://github.com/g
 It's a complete plugin on its own with no dependencies, and makes managing the Zsh
 completion system easy.
 
-## How do I customize it?
+## Customization
 
-> _Note: Be sure to set all customization variables and zstyles before loading this
-plugin._
+There are a few ways to customize ez-compinit behavior if you want to.
+
+### Customizing dump file path
 
 This plugin will place the completion dump file at the following location by default:
 `${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump`. You can override this by setting
@@ -116,6 +117,8 @@ the `ZSH_COMPDUMP` variable like so:
 ```zsh
 ZSH_COMPDUMP=/path/to/.zcompdump
 ```
+
+### Caching/compiling the dump file
 
 This plugin can also cache the zcompdump file for a day for performance reasons. Caching
 is disabled by default because it can cause you trouble if you add completions to your
@@ -130,11 +133,23 @@ zstyle ':plugin:ez-compinit' 'use-cache' 'yes'
 ez-compinit provides a `run-compinit` function which includes performance enhancements
 in addition to caching mentioned above. It will also `zcompile` the completion file, and
 will skip insecure directory checks. This is very similar to what Prezto does in its
-completion module. That might not be what you want, so if you prefer to use `compinit`
-differently, you can simply call it yourself at the very bottom of your `.zshrc`:
+completion module.
+
+### Calling compinit yourself
+
+If you prefer to use `compinit` differently, you can simply call it yourself at the very bottom of your `.zshrc`. By loading ez-compinit at the top and calling `compinit`
+yourself at the bottom, you still get all the benefits of queueing `compdef` calls.
 
 ```zsh
-# .zshrc contents above...
+# .zshrc
+# Load ez-compinit towards the top of your config
+# Load it yourself, or with a plugin manager.
+source /path/to/ez-compinit/ez-compinit.plugin.zsh
+
+#
+# .zshrc contents here...
+#
+
 autoload -Uz compinit
 compinit -u -d /path/to/zcompdump
 # end of .zshrc

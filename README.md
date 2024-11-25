@@ -155,6 +155,6 @@ compinit -u -d /path/to/zcompdump
 # end of .zshrc
 ```
 
-[antidote]: https://getantidote.github.io
+[antidote]: https://antidote.sh
 [use-omz]: https://github.com/getantidote/use-omz
 [zsh-completion-system]: https://zsh.sourceforge.io/Doc/Release/Completion-System.html#index-completion-system
